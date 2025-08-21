@@ -8,6 +8,14 @@ ORANGE = (255, 202, 58)
 VIOLET = (106, 76, 147)
 BLACK = (0, 0, 0)
 
+ROWS_FIELD= 25
+COLS_FIELD= 50
+BUSH_NUMBER = 20
+MINE_NUMBER = 20
+FLAG_PLACEMENT=[[21,46], [21,47], [21,48], [21,49],
+                [22,46], [22,47], [22,48], [22,49],
+                [23,46], [23,47], [23,48], [23,49]]
+Soldier_PLACEMENT=[[0,0], [1,0]]
 
 RUNNING_STATE = 1
 LOSE_STATE = 2
