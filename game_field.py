@@ -22,7 +22,7 @@ def create_field_row(row_index, row_start, row_length):
 
 
 def create_field_dict():
-    return {"type": 'empty'}
+    return {"type": 'empty', 'center_x':'', 'center_y', '' }
 
 
 def distribute_mine_bush():
