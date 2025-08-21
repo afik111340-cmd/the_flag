@@ -1,5 +1,5 @@
 import pygame
-
+import Screen
 import consts
 
 game_state = {
@@ -15,22 +15,17 @@ CELL_HEIGHT = 124
 CELL_WIDTH = 124
 CELL_MARGIN = 1
 
+
 def main():
     pygame.init()
-    window_size = (consts.WINDOW_WIDTH, consts.WINDOW_HEIGHT)
     pygame.display.set_caption("The Flag")
-
-    screen = pygame.display.set_mode(window_size)
-    background_color = consts.BACKGROUND_COLOR
-
-    screen.fill(background_color)
-
 
 
     # показываем окно, пока пользователь не нажмет кнопку "Закрыть"
     while game_state["is_window_open"]:
         handle_user_events()
         pygame.display.flip()
+        Screen.draw_game()
 
 
 
