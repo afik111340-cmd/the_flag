@@ -1,5 +1,7 @@
 import pygame
+
 import consts
+import Soldier
 
 screen = pygame.display.set_mode((consts.WINDOW_WIDTH, consts.WINDOW_HEIGHT))
 
@@ -11,10 +13,13 @@ def draw_message(message, font_size, color, location):
     screen.blit(text_img, location)
 
 
+image = pygame.image.load(consts.SOLDIER_IMAGE)
+image = pygame.transform.scale(image, consts.SOLDER_SIZE)
+
 
 def draw_game():
     screen.fill(consts.BACKGROUND_COLOR)
-
+    screen.blit(image, Soldier.solder_position)
     pygame.display.flip()
 
 
