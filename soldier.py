@@ -5,13 +5,16 @@ solder_position = []
 
 def solder_move(game_state):
     if game_state["solder_move_left"]:
-        solder_position[0] -= 1
+        solder_position[0] -= consts.CELL
+
     if game_state["solder_move_right"]:
-        solder_position[0] += 1
+        solder_position[0] += consts.CELL
+
     if game_state["solder_move_up"]:
-        solder_position[1] -= 1
+        solder_position[1] -= consts.CELL
+
     if game_state["solder_move_down"]:
-        solder_position[1] += 1
+        solder_position[1] += consts.CELL
 
 
 
