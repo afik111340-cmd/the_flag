@@ -1,7 +1,7 @@
 import pygame
 import consts
 import Soldier
-import Game_field
+# import Game_field
 
 
 screen = pygame.display.set_mode((consts.WINDOW_WIDTH, consts.WINDOW_HEIGHT))
@@ -38,7 +38,7 @@ def draw_bush_and_solder():
     screen.blit(bush_image, (80, 80))
 
 
-def scan_vision():
+def scan_vision(game_state):
     """
     this function in feautures have to get list of mines
     here we will draw all bushes
@@ -46,6 +46,9 @@ def scan_vision():
     """
     screen.blit(night_solder_image, Soldier.solder_position)
     screen.blit(mine_image, (70, 150))
+    screen.blit(mine_image, (270, 350))
+    if not game_state["is_last_time_scan_mode_activated"]:
+        pygame.time.set_timer(pygame.USEREVENT, 1000)
 
 
 def draw_game(game_state):
@@ -54,8 +57,7 @@ def draw_game(game_state):
         draw_bush_and_solder()
     else:
         screen.fill(consts.BLACK)
-        scan_vision()
-        pass
+        scan_vision(game_state)
 
     pygame.display.flip()
 

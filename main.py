@@ -10,6 +10,7 @@ game_state = {
     "state": consts.RUNNING_STATE,
     "choice_of_difficulty_level_is_made": False,
     "is_scan_mode_activated": False,
+    "is_last_time_scan_mode_activated": False,
     "solder_move_left": False,
     "solder_move_right": False,
     "solder_move_up": False,
@@ -38,18 +39,18 @@ def main():
                 or game_state["solder_move_up"] or game_state["solder_move_down"]:
             Soldier.solder_move(game_state)
 
-        if game_state["is_scan_mode_activated"]:
-            pass
 
         Screen.draw_game(game_state)
 
+        if game_state["is_scan_mode_activated"]:
+            game_state["is_last_time_scan_mode_activated"] = True
 
 
 
 def handle_user_events():
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
+            if event.key == pygame.K_RETURN and not game_state["is_last_time_scan_mode_activated"]:
                 game_state["is_scan_mode_activated"] = True
 
             if event.key == pygame.K_LEFT:
@@ -64,8 +65,9 @@ def handle_user_events():
             if event.key == pygame.K_DOWN:
                 game_state["solder_move_down"] = True
 
-            # if event.key == pygame.K_RETURN:
-            #     return True
+        if event.type == pygame.USEREVENT:
+            game_state["is_scan_mode_activated"] = False
+
         if event.type == pygame.QUIT:
             game_state["is_window_open"] = False
 
