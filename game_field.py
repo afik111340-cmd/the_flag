@@ -1,11 +1,12 @@
 import random
 import consts
-from consts import FLAG_PLACEMENT, SOLDIER_START_PLACEMENT
+from consts import FLAG_PLACEMENT, SOLDIER_START_PLACEMENT, BUSH_SIZE_BY_WIDTH_IN_CELLS, MINE_SIZE_BY_WIDTH_IN_CELLS
 
 game_field = []
 bush_in_field = []
 mine_in_field = []
-what_mine_exploded=[]
+what_mine_exploded = []
+
 
 def create_game_field():
     global game_field
@@ -17,7 +18,12 @@ def create_field_row(row_length):
 
 
 def create_field_dict():
-    return {'soldier': False, 'bush': False, 'mine': False, 'center_x': '', 'center_y': ''}
+    return {'soldier': False, 'bush': False, 'mine': False, 'flag': False, 'center_x': '', 'center_y': ''}
+
+
+def insert_flag_to_matrix():
+    for i in range(len(FLAG_PLACEMENT)):
+        game_field[FLAG_PLACEMENT[i][0]][FLAG_PLACEMENT[i][1]]['flag'] = True
 
 
 def distribute_bush():
@@ -28,7 +34,7 @@ def distribute_bush():
         random_col = random.randrange(1, 49)
         random_row = random.randrange(1, 24)
 
-        while [random_row, random_col] in FLAG_PLACEMENT or [random_row, random_col] in SOLDIER_START_PLACEMENT:
+        while [random_row, random_col+2] in FLAG_PLACEMENT or [random_row, random_col] in SOLDIER_START_PLACEMENT:
             random_col = random.randrange(1, 49)
             random_row = random.randrange(1, 24)
 
@@ -55,7 +61,7 @@ def distribute_mine():
         random_col = random.randrange(1, 48)
         random_row = random.randrange(1, 25)
 
-        while [random_row, random_col] in FLAG_PLACEMENT or [random_row, random_col] in SOLDIER_START_PLACEMENT:
+        while game_field[random_row][random_col + 2]['flag'] or [random_row, random_col] in SOLDIER_START_PLACEMENT:
             random_col = random.randrange(1, 48)
             random_row = random.randrange(1, 25)
 
@@ -106,10 +112,9 @@ def check_if_got_exploded(soldier):
                 got_exploded = True
                 for i in range(len(mine_in_field)):
                     for j in range(0, len(mine_in_field[i]), 2):
-                        if row==mine_in_field[i][j] and col== mine_in_field[i][j+1]:
+                        if row == mine_in_field[i][j] and col == mine_in_field[i][j + 1]:
                             what_mine_exploded.append(mine_in_field[i][2])
                             what_mine_exploded.append(mine_in_field[i][3])
-
 
     return got_exploded
 

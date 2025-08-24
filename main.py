@@ -27,10 +27,11 @@ game_state = {
 def main():
     pygame.init()
     pygame.display.set_caption("The Flag")
-
+    Game_field.insert_flag_to_matrix()
     Soldier.solder_position = consts.SOLDIER_START_PLACEMENT
     game_field = Game_field.game_field
     Soldier.set_solder_position(game_field)
+    Game_field.print_mateix(game_field)
     # показываем окно, пока пользователь не нажмет кнопку "Закрыть"
     while game_state["is_window_open"]:
         game_state["solder_move_left"] = False
@@ -51,7 +52,7 @@ def main():
             if Game_field.check_if_got_exploded(solder_position):
                 game_state["is_explosion"] = True
                 game_state["is_lose"] = True
-                print(Game_field.what_mine_exploded)
+
 
             Screen.draw_game(game_state, game_field, Game_field.bush_in_field, Game_field.mine_in_field, Game_field.what_mine_exploded)
 

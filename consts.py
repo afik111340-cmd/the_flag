@@ -11,13 +11,14 @@ BLUE = (25, 130, 196)
 ORANGE = (255, 202, 58)
 VIOLET = (106, 76, 147)
 BLACK = (0, 0, 0)
+WIGHT = (255, 255, 255)
 BACKGROUND_COLOR = (0, 125, 0)
 
 BUSH_NUMBER = 20
 MINE_NUMBER = 20
-FLAG_PLACEMENT = [[21, 46], [21, 47], [21, 48], [21, 49],
-                  [22, 46], [22, 47], [22, 48], [22, 49],
-                  [23, 46], [23, 47], [23, 48], [23, 49]]
+FLAG_PLACEMENT = [[22, 46], [22, 47], [22, 48], [22, 49],
+                  [23, 46], [23, 47], [23, 48], [23, 49],
+                  [24, 46], [24, 47], [24, 48], [24, 49]]
 
 SOLDIER_START_PLACEMENT = [[4, 0], [4, 1]]  # first it is row and  second it is column
 
@@ -26,6 +27,11 @@ LOSE_STATE = 2
 WIN_STATE = 3
 
 FONT_NAME = "Calibri"
+
+WELCOME_MESSAGE = "Welcome to the flag game\nHave fun!"
+WELCOME_FONT_SIZE = int(0.05 * WINDOW_WIDTH)
+WELCOME_COLOR = WIGHT
+WELCOME_LOCATION = CELL*4, CELL
 
 LOSE_MESSAGE = "You Lost!"
 LOSE_FONT_SIZE = int(0.15 * WINDOW_WIDTH)

@@ -34,6 +34,10 @@ def draw_message(message, font_size, color, location):
     screen.blit(text_img, location)
 
 
+def draw_start_message():
+    draw_message(consts.WELCOME_MESSAGE, consts.WELCOME_FONT_SIZE, consts.WELCOME_COLOR, consts.WELCOME_LOCATION)
+
+
 def draw_lose_message(game_state):
     draw_message(consts.LOSE_MESSAGE, consts.LOSE_FONT_SIZE,
                  consts.LOSE_COLOR, consts.LOSE_LOCATION)
@@ -96,7 +100,7 @@ def scan_vision(game_state, game_field, mine_list):
 
 
     if not game_state["is_last_time_scan_mode_activated"]:
-        pygame.time.set_timer(pygame.USEREVENT, 1000)
+        pygame.time.set_timer(pygame.USEREVENT, 5000)
 
 
 def draw_flag(game_field):
@@ -123,6 +127,7 @@ def draw_explosion(game_field, exploding_mine, mine_list):
 def draw_game(game_state, game_field, bush_list, mine_list, mine_position):
     if not game_state["is_scan_mode_activated"]:
         screen.fill(consts.BACKGROUND_COLOR)
+        draw_start_message()
         if game_state["is_explosion"]:
             draw_bush_and_solder(game_field, bush_list, damaged_solder_image)
             draw_explosion(game_field, mine_position, mine_list)
