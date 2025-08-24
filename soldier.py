@@ -17,7 +17,6 @@ def set_solder_position(game_field):
 
 
 def solder_move(game_state, game_field):
-    print(solder_position)
 
     if game_state["solder_move_left"] and solder_position[0][1] != 0:
         game_field[solder_position[0][0]][solder_position[0][1]]['soldier'] = False

@@ -27,7 +27,6 @@ def main():
     Soldier.solder_position = consts.SOLDIER_START_PLACEMENT
     game_field = Game_field.game_field
     Soldier.set_solder_position(game_field)
-    Game_field.print_mateix(game_field)
     # показываем окно, пока пользователь не нажмет кнопку "Закрыть"
     while game_state["is_window_open"]:
         game_state["solder_move_left"] = False

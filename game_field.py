@@ -5,7 +5,7 @@ from consts import FLAG_PLACEMENT, SOLDIER_START_PLACEMENT
 game_field = []
 bush_in_field = []
 mine_in_field = []
-
+what_mine_exploded=[]
 
 def create_game_field():
     global game_field
@@ -47,7 +47,6 @@ def distribute_bush():
             bush_in_field.append([random_row, random_col])
 
 
-
 def distribute_mine():
     num_of_mine_placed = 0
 
@@ -71,7 +70,7 @@ def distribute_mine():
             game_field[random_row][random_col + 2]['mine'] = True
 
             num_of_mine_placed += 1
-            mine_in_field.append([random_row, random_col])
+            mine_in_field.append([random_row, random_col, random_row, random_col + 1, random_row, random_col + 2])
 
 
 def print_mateix(matrix):
@@ -104,6 +103,12 @@ def check_if_got_exploded(soldier):
         for col in range(len(game_field[row])):
             if game_field[row][col]['mine'] and [row, col] in soldier:
                 got_exploded = True
+                for i in range(len(mine_in_field)):
+                    for j in range(0, len(mine_in_field[i]), 2):
+                        if row==mine_in_field[i][j] and col== mine_in_field[i][j+1]:
+                            what_mine_exploded.append(mine_in_field[i][2])
+                            what_mine_exploded.append(mine_in_field[i][3])
+
 
     return got_exploded
 
