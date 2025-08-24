@@ -53,12 +53,12 @@ def distribute_mine():
 
     while num_of_mine_placed != consts.MINE_NUMBER:
         manage_to_place_mine = False
-        random_col = random.randrange(1, 49)
-        random_row = random.randrange(1, 24)
+        random_col = random.randrange(1, 48)
+        random_row = random.randrange(1, 25)
 
         while [random_row, random_col] in FLAG_PLACEMENT or [random_row, random_col] in Soldier_PLACEMENT:
-            random_col = random.randrange(1, 49)
-            random_row = random.randrange(1, 24)
+            random_col = random.randrange(1, 48)
+            random_row = random.randrange(1, 25)
 
         if game_field[random_row][random_col]['mine'] != True \
                 and game_field[random_row][random_col + 1]['mine'] != True \
@@ -87,6 +87,26 @@ def calc_center_x_y(matrix):
         for col in range(len(matrix[row])):
             matrix[row][col]['center_x'] = col * consts.CELL
             matrix[row][col]['center_y'] = row * consts.CELL
+
+
+def check_if_got_to_flag(soldier):
+    got_flag = False
+    for row in soldier:
+        if row in consts.FLAG_PLACEMENT:
+            got_flag = True
+
+    return got_flag
+
+
+def check_if_got_exploded(soldier):
+    got_exploded = False
+    for row in range(len(game_field)):
+        for col in range(len(game_field[row])):
+            if game_field[row][col]['mine'] and [row, col] in soldier:
+                got_exploded = True
+
+    return got_exploded
+
 
 
 
