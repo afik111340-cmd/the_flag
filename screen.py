@@ -5,8 +5,12 @@ import Soldier
 
 
 screen = pygame.display.set_mode((consts.WINDOW_WIDTH, consts.WINDOW_HEIGHT))
+
 solder_image = pygame.image.load(consts.SOLDIER_IMAGE)
 solder_image = pygame.transform.scale(solder_image, consts.SOLDER_SIZE)
+
+damaged_solder_image = pygame.image.load(consts.DAMAGED_SOLDER_IMAGE)
+damaged_solder_image = pygame.transform.scale(damaged_solder_image, consts.SOLDER_SIZE)
 
 night_solder_image = pygame.image.load(consts.SOLDER_NIGHT_IMAGE)
 night_solder_image = pygame.transform.scale(night_solder_image, consts.SOLDER_SIZE)
@@ -30,8 +34,23 @@ def draw_message(message, font_size, color, location):
     screen.blit(text_img, location)
 
 
+def draw_lose_message(game_state):
+    draw_message(consts.LOSE_MESSAGE, consts.LOSE_FONT_SIZE,
+                 consts.LOSE_COLOR, consts.LOSE_LOCATION)
 
-def draw_bush_and_solder(game_field, bush_list):
+    if game_state["is_lose"] and not game_state["is_it_finish"]:
+        pygame.time.set_timer(999, 3000)
+
+
+def draw_win_message(game_state):
+    draw_message(consts.WIN_MESSAGE, consts.WIN_FONT_SIZE,
+                 consts.WIN_COLOR, consts.WIN_LOCATION)
+
+    if game_state["is_win"] and not game_state["is_it_finish"]:
+        pygame.time.set_timer(999, 3000)
+
+
+def draw_bush_and_solder(game_field, bush_list, image_solder):
     """
     this function in feautures have to get list of bushes
     here we will draw all bushes
@@ -40,7 +59,7 @@ def draw_bush_and_solder(game_field, bush_list):
     left_leg, right_leg = Soldier.solder_position
     left_leg_row, left_leg_col = left_leg
 
-    screen.blit(solder_image, (game_field[left_leg_row][left_leg_col]['center_x'],
+    screen.blit(image_solder, (game_field[left_leg_row][left_leg_col]['center_x'],
                                game_field[left_leg_row][left_leg_col]['center_y'] - consts.CELL*consts.SOLDER_SIZE_BY_HEIGHT_IN_CELLS))
 
     for bush in bush_list:
@@ -86,20 +105,36 @@ def draw_flag(game_field):
                              game_field[flag_row_start_point][flag_col_start_point]["center_y"]))
 
 
-def draw_explosion(game_field, exploding_mine):
-    row_explosion, col_explosion = exploding_mine[2:4]
-    print("blyaaaa 91 errroooors")
-    screen.blit(explosion_image, (game_field[row_explosion][col_explosion]))
+
+def draw_explosion(game_field, exploding_mine, mine_list):
+    row_explosion, col_explosion = exploding_mine[0], exploding_mine[1]
 
 
-def draw_game(game_state, game_field, bush_list, mine_list, solder_position):
+    # print((game_field[row_explosion-1][col_explosion-1]["center_x"],
+    #        game_field[row_explosion][col_explosion]["center_y"]))
+    # for mine in mine_list:
+    #     bush_row, bush_col = mine[0], mine[1]
+    #     screen.blit(mine_image, (game_field[bush_row][bush_col]["center_x"], game_field[bush_row][bush_col]["center_y"]))
+
+    screen.blit(explosion_image, (game_field[row_explosion-2][col_explosion-1]["center_x"],
+                                  game_field[row_explosion-2][col_explosion-1]["center_y"]))
+
+
+def draw_game(game_state, game_field, bush_list, mine_list, mine_position):
     if not game_state["is_scan_mode_activated"]:
         screen.fill(consts.BACKGROUND_COLOR)
-        draw_flag(game_field)
-        draw_bush_and_solder(game_field, bush_list)
-
         if game_state["is_explosion"]:
-            draw_explosion(game_field, solder_position)
+            draw_bush_and_solder(game_field, bush_list, damaged_solder_image)
+            draw_explosion(game_field, mine_position, mine_list)
+            draw_lose_message(game_state)
+        else:
+            draw_bush_and_solder(game_field, bush_list, solder_image)
+            if game_state["is_win"]:
+                draw_win_message(game_state)
+
+        draw_flag(game_field)
+
+
 
     else:
         screen.fill(consts.BLACK)

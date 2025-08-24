@@ -71,6 +71,7 @@ def distribute_mine():
 
             num_of_mine_placed += 1
             mine_in_field.append([random_row, random_col, random_row, random_col + 1, random_row, random_col + 2])
+        print(mine_in_field)
 
 
 def print_mateix(matrix):

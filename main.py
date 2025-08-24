@@ -14,6 +14,7 @@ game_state = {
     "game_running": True,
     "is_lose": False,
     "is_win": False,
+    "is_it_finish": False,
     "is_explosion": False,
     "solder_move_left": False,
     "solder_move_right": False,
@@ -40,7 +41,7 @@ def main():
         solder_position = Soldier.solder_position
         handle_user_events()
 
-        if not game_state["is_lose"] or game_state["is_win"]:
+        if not game_state["is_explosion"] and not game_state["is_win"]:
 
             if game_state["solder_move_left"] or game_state["solder_move_right"] \
                     or game_state["solder_move_up"] or game_state["solder_move_down"]:
@@ -50,14 +51,19 @@ def main():
             if Game_field.check_if_got_exploded(solder_position):
                 game_state["is_explosion"] = True
                 game_state["is_lose"] = True
+                print(Game_field.what_mine_exploded)
 
-            Screen.draw_game(game_state, game_field, Game_field.bush_in_field, Game_field.mine_in_field)
+            Screen.draw_game(game_state, game_field, Game_field.bush_in_field, Game_field.mine_in_field, Game_field.what_mine_exploded)
 
             if game_state["is_scan_mode_activated"]:
                 game_state["is_last_time_scan_mode_activated"] = True
+            if Game_field.check_if_got_to_flag(solder_position):
+                game_state["is_win"] = True
 
         else:
-            pass
+            Screen.draw_game(game_state, game_field, Game_field.bush_in_field, Game_field.mine_in_field,
+                             Game_field.what_mine_exploded)
+            game_state["is_it_finish"] = True
 
 
 def handle_user_events():
@@ -83,7 +89,7 @@ def handle_user_events():
         if event.type == pygame.USEREVENT:
             game_state["is_scan_mode_activated"] = False
 
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT or event.type == 999:
             game_state["is_window_open"] = False
 
         if event.type == pygame.MOUSEMOTION:
