@@ -1,6 +1,6 @@
 import random
 import consts
-from consts import FLAG_PLACEMENT, SOLDIER_START_PLACEMENT
+from consts import FLAG_PLACEMENT, SOLDIER_START_PLACEMENT, BUSH_SIZE_BY_WIDTH_IN_CELLS, MINE_SIZE_BY_WIDTH_IN_CELLS
 
 game_field = []
 bush_in_field = []
@@ -17,8 +17,11 @@ def create_field_row(row_length):
 
 
 def create_field_dict():
-    return {'soldier': False, 'bush': False, 'mine': False, 'center_x': '', 'center_y': ''}
+    return {'soldier': False, 'bush': False, 'mine': False, 'flag': False, 'center_x': '', 'center_y': ''}
 
+def insert_flag_to_matrix():
+    for i in range(len(FLAG_PLACEMENT)):
+        game_field[FLAG_PLACEMENT[i][0]][FLAG_PLACEMENT[i][1]]['flag'] = True
 
 def distribute_bush():
     num_of_bush_placed = 0
@@ -28,7 +31,7 @@ def distribute_bush():
         random_col = random.randrange(1, 49)
         random_row = random.randrange(1, 24)
 
-        while [random_row, random_col] in FLAG_PLACEMENT or [random_row, random_col] in SOLDIER_START_PLACEMENT:
+        while game_field[random_row][random_col+BUSH_SIZE_BY_WIDTH_IN_CELLS]['flag'] or [random_row, random_col] in SOLDIER_START_PLACEMENT:
             random_col = random.randrange(1, 49)
             random_row = random.randrange(1, 24)
 
@@ -55,7 +58,7 @@ def distribute_mine():
         random_col = random.randrange(1, 48)
         random_row = random.randrange(1, 25)
 
-        while [random_row, random_col] in FLAG_PLACEMENT or [random_row, random_col] in SOLDIER_START_PLACEMENT:
+        while game_field[random_row][random_col+MINE_SIZE_BY_WIDTH_IN_CELLS]['flag'] or [random_row, random_col] in SOLDIER_START_PLACEMENT:
             random_col = random.randrange(1, 48)
             random_row = random.randrange(1, 25)
 
