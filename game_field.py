@@ -3,6 +3,8 @@ import consts
 from consts import FLAG_PLACEMENT, Soldier_PLACEMENT
 
 game_field = []
+bush_in_field = []
+mine_in_field = []
 
 
 def create_game_field():
@@ -19,43 +21,79 @@ def create_field_dict():
 
 
 def distribute_bush():
-    for i in range(consts.BUSH_NUMBER):
+    num_of_bush_placed = 0
+
+    while num_of_bush_placed != consts.BUSH_NUMBER:
         manage_to_place_bush = False
         random_col = random.randrange(1, 49)
         random_row = random.randrange(1, 24)
+
         while [random_row, random_col] in FLAG_PLACEMENT or [random_row, random_col] in Soldier_PLACEMENT:
             random_col = random.randrange(1, 49)
             random_row = random.randrange(1, 24)
 
-        while manage_to_place_bush == False:
-            if game_field[random_row][random_col]['bush'] != True \
-                    and game_field[random_row + 1][random_col]['bush'] != True \
-                    and game_field[random_row][random_col + 1]['bush'] != True \
-                    and game_field[random_row + 1][random_col + 1]['bush'] != True:
-                manage_to_place_bush = True
+        if game_field[random_row][random_col]['bush'] != True \
+                and game_field[random_row + 1][random_col]['bush'] != True \
+                and game_field[random_row][random_col + 1]['bush'] != True \
+                and game_field[random_row + 1][random_col + 1]['bush'] != True:
+            manage_to_place_bush = True
 
-        if manage_to_place_bush == True:
+        if manage_to_place_bush:
             game_field[random_row][random_col]['bush'] = True
             game_field[random_row + 1][random_col]['bush'] = True
             game_field[random_row][random_col + 1]['bush'] = True
             game_field[random_row + 1][random_col + 1]['bush'] = True
+            num_of_bush_placed += 1
+            bush_in_field.append([random_row, random_col])
+
+
+
+def distribute_mine():
+    num_of_mine_placed = 0
+
+    while num_of_mine_placed != consts.MINE_NUMBER:
+        manage_to_place_mine = False
+        random_col = random.randrange(1, 49)
+        random_row = random.randrange(1, 24)
+
+        while [random_row, random_col] in FLAG_PLACEMENT or [random_row, random_col] in Soldier_PLACEMENT:
+            random_col = random.randrange(1, 49)
+            random_row = random.randrange(1, 24)
+
+        if game_field[random_row][random_col]['mine'] != True \
+                and game_field[random_row][random_col + 1]['mine'] != True \
+                and game_field[random_row][random_col + 2]['mine'] != True:
+            manage_to_place_mine = True
+
+        if manage_to_place_mine:
+            game_field[random_row][random_col]['mine'] = True
+            game_field[random_row][random_col + 1]['mine'] = True
+            game_field[random_row][random_col + 2]['mine'] = True
+
+            num_of_mine_placed += 1
+            mine_in_field.append([random_row, random_col])
+
+
+def print_mateix(matrix):
+    for row in matrix:
+        for col in row:
+            print(col, end=" ")
+
+        print()
+
+
+def calc_center_x_y(matrix):
+    for row in range(len(matrix)):
+        for col in range(len(matrix[row])):
+            matrix[row][col]['center_x'] = col * consts.CELL
+            matrix[row][col]['center_y'] = row * consts.CELL
+
 
 
 create_game_field()
-# print(game_field)
 distribute_bush()
-print(game_field)
-
-
-
-
-
-    # "center_x": center_x,
-    # "center_y": center_y}
-    # def calc_center_x(col, row, row_start):
-    #     bubble_x = row_start + col * (
-    #             consts.BUBBLE_RADIUS * 2 + consts.SPACE_BETWEEN_COLS) + consts.BUBBLE_RADIUS
-    #
-    #  def calc_center_y(row):
-    #         return row * (consts.BUBBLE_RADIUS * 2 - consts.ROWS_OVERLAP) + \
-    #             consts.BUBBLE_RADIUS
+distribute_mine()
+calc_center_x_y(game_field)
+print_mateix(game_field)
+print(bush_in_field)
+print(mine_in_field)
