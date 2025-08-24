@@ -58,7 +58,7 @@ def distribute_mine():
         random_col = random.randrange(1, 48)
         random_row = random.randrange(1, 25)
 
-        while game_field[random_row][random_col+MINE_SIZE_BY_WIDTH_IN_CELLS]['flag'] or [random_row, random_col] in SOLDIER_START_PLACEMENT:
+        while game_field[random_row][random_col]['flag'] or [random_row, random_col] in SOLDIER_START_PLACEMENT:
             random_col = random.randrange(1, 48)
             random_row = random.randrange(1, 25)
 
@@ -93,9 +93,10 @@ def calc_center_x_y(matrix):
 
 def check_if_got_to_flag(soldier):
     got_flag = False
-    for row in soldier:
-        if row in consts.FLAG_PLACEMENT:
-            got_flag = True
+    for side in range(len(soldier)):
+        for highet in range(1,3):
+            if [soldier[side][0] + highet, soldier[side][1]] in FLAG_PLACEMENT:
+                got_flag = True
 
     return got_flag
 
