@@ -1,6 +1,6 @@
 import random
 import consts
-from consts import FLAG_PLACEMENT, Soldier_PLACEMENT
+from consts import FLAG_PLACEMENT, SOLDIER_START_PLACEMENT
 
 game_field = []
 bush_in_field = []
@@ -28,7 +28,7 @@ def distribute_bush():
         random_col = random.randrange(1, 49)
         random_row = random.randrange(1, 24)
 
-        while [random_row, random_col] in FLAG_PLACEMENT or [random_row, random_col] in Soldier_PLACEMENT:
+        while [random_row, random_col] in FLAG_PLACEMENT or [random_row, random_col] in SOLDIER_START_PLACEMENT:
             random_col = random.randrange(1, 49)
             random_row = random.randrange(1, 24)
 
@@ -56,7 +56,7 @@ def distribute_mine():
         random_col = random.randrange(1, 48)
         random_row = random.randrange(1, 25)
 
-        while [random_row, random_col] in FLAG_PLACEMENT or [random_row, random_col] in Soldier_PLACEMENT:
+        while [random_row, random_col] in FLAG_PLACEMENT or [random_row, random_col] in SOLDIER_START_PLACEMENT:
             random_col = random.randrange(1, 48)
             random_row = random.randrange(1, 25)
 
@@ -89,31 +89,11 @@ def calc_center_x_y(matrix):
             matrix[row][col]['center_y'] = row * consts.CELL
 
 
-def check_if_got_to_flag(soldier):
-    got_flag = False
-    for row in soldier:
-        if row in consts.FLAG_PLACEMENT:
-            got_flag = True
-
-    return got_flag
-
-
-def check_if_got_exploded(soldier):
-    got_exploded = False
-    for row in range(len(game_field)):
-        for col in range(len(game_field[row])):
-            if game_field[row][col]['mine'] and [row, col] in soldier:
-                got_exploded = True
-
-    return got_exploded
-
-
-
 
 create_game_field()
 distribute_bush()
 distribute_mine()
 calc_center_x_y(game_field)
-print_mateix(game_field)
-print(bush_in_field)
-print(mine_in_field)
+# print_mateix(game_field)
+# print(bush_in_field)
+# print(mine_in_field)
