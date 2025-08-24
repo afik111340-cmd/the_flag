@@ -11,6 +11,7 @@ game_state = {
     "choice_of_difficulty_level_is_made": False,
     "is_scan_mode_activated": False,
     "is_last_time_scan_mode_activated": False,
+    "is_explosion": False,
     "solder_move_left": False,
     "solder_move_right": False,
     "solder_move_up": False,
@@ -42,7 +43,7 @@ def main():
             Soldier.solder_move(game_state)
 
 
-        Screen.draw_game(game_state, Game_field.game_field, Game_field.bush_in_field, Game_field.mine_in_field)
+        Screen.draw_game(game_state, game_field, Game_field.bush_in_field, Game_field.mine_in_field)
 
         if game_state["is_scan_mode_activated"]:
             game_state["is_last_time_scan_mode_activated"] = True
@@ -55,17 +56,19 @@ def handle_user_events():
             if event.key == pygame.K_RETURN and not game_state["is_last_time_scan_mode_activated"]:
                 game_state["is_scan_mode_activated"] = True
 
-            if event.key == pygame.K_LEFT:
-                game_state["solder_move_left"] = True
+            if not game_state["is_scan_mode_activated"]:
 
-            if event.key == pygame.K_RIGHT:
-                game_state["solder_move_right"] = True
+                if event.key == pygame.K_LEFT:
+                    game_state["solder_move_left"] = True
 
-            if event.key == pygame.K_UP:
-                game_state["solder_move_up"] = True
+                if event.key == pygame.K_RIGHT:
+                    game_state["solder_move_right"] = True
 
-            if event.key == pygame.K_DOWN:
-                game_state["solder_move_down"] = True
+                if event.key == pygame.K_UP:
+                    game_state["solder_move_up"] = True
+
+                if event.key == pygame.K_DOWN:
+                    game_state["solder_move_down"] = True
 
         if event.type == pygame.USEREVENT:
             game_state["is_scan_mode_activated"] = False
