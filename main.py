@@ -11,6 +11,9 @@ game_state = {
     "choice_of_difficulty_level_is_made": False,
     "is_scan_mode_activated": False,
     "is_last_time_scan_mode_activated": False,
+    "game_running": True,
+    "is_lose": False,
+    "is_win": False,
     "is_explosion": False,
     "solder_move_left": False,
     "solder_move_right": False,
@@ -34,21 +37,28 @@ def main():
         game_state["solder_move_right"] = False
         game_state["solder_move_up"] = False
         game_state["solder_move_down"] = False
+
+        solder_position = Soldier.solder_position
         handle_user_events()
 
+        if not game_state["is_lose"] or game_state["is_win"]:
 
+            if game_state["solder_move_left"] or game_state["solder_move_right"] \
+                    or game_state["solder_move_up"] or game_state["solder_move_down"]:
 
-        if game_state["solder_move_left"] or game_state["solder_move_right"] \
-                or game_state["solder_move_up"] or game_state["solder_move_down"]:
+                Soldier.solder_move(game_state, game_field)
 
-            Soldier.solder_move(game_state, game_field)
+            if Game_field.check_if_got_exploded(solder_position):
+                game_state["is_explosion"] = True
+                game_state["is_lose"] = True
 
+            Screen.draw_game(game_state, game_field, Game_field.bush_in_field, Game_field.mine_in_field)
 
-        Screen.draw_game(game_state, game_field, Game_field.bush_in_field, Game_field.mine_in_field)
+            if game_state["is_scan_mode_activated"]:
+                game_state["is_last_time_scan_mode_activated"] = True
 
-        if game_state["is_scan_mode_activated"]:
-            game_state["is_last_time_scan_mode_activated"] = True
-
+        else:
+            pass
 
 
 def handle_user_events():
