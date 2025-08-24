@@ -40,7 +40,8 @@ def main():
 
         if game_state["solder_move_left"] or game_state["solder_move_right"] \
                 or game_state["solder_move_up"] or game_state["solder_move_down"]:
-            Soldier.solder_move(game_state)
+
+            Soldier.solder_move(game_state, game_field)
 
 
         Screen.draw_game(game_state, game_field, Game_field.bush_in_field, Game_field.mine_in_field)

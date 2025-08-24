@@ -15,21 +15,37 @@ def set_solder_position(game_field):
 
 
 
-def solder_move(game_state):
-    if game_state["solder_move_left"]:
+
+def solder_move(game_state, game_field):
+    print(solder_position)
+
+    if game_state["solder_move_left"] and solder_position[0][1] != 0:
+        game_field[solder_position[0][0]][solder_position[0][1]]['soldier'] = False
+        game_field[solder_position[1][0]][solder_position[1][1]]['soldier'] = False
+
         solder_position[0][1] -= 1
         solder_position[1][1] -= 1
 
+    if game_state["solder_move_right"] and solder_position[0][1] != len(game_field[0]) - 2:
+        game_field[solder_position[0][0]][solder_position[0][1]]['soldier'] = False
+        game_field[solder_position[1][0]][solder_position[1][1]]['soldier'] = False
 
-    if game_state["solder_move_right"]:
-        solder_position[0] += 1
+        solder_position[0][1] += 1
+        solder_position[1][1] += 1
 
-    if game_state["solder_move_up"]:
-        solder_position[1] -= 1
+    if game_state["solder_move_up"] and solder_position[0][0] != consts.SOLDER_SIZE_BY_HEIGHT_IN_CELLS:
+        game_field[solder_position[0][0]][solder_position[0][1]]['soldier'] = False
+        game_field[solder_position[1][0]][solder_position[1][1]]['soldier'] = False
 
-    if game_state["solder_move_down"]:
-        solder_position[1] += 1
+        solder_position[0][0] -= 1
+        solder_position[1][0] -= 1
 
+    if game_state["solder_move_down"] and solder_position[0][0] != len(game_field) - 1:
+        game_field[solder_position[0][0]][solder_position[0][1]]['soldier']=False
+        game_field[solder_position[1][0]][solder_position[1][1]]['soldier']=False
+
+        solder_position[0][0] += 1
+        solder_position[1][0] += 1
 
 
 """
