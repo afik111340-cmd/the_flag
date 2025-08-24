@@ -17,6 +17,9 @@ bush_image = pygame.transform.scale(bush_image, consts.BUSH_SIZE)
 mine_image = pygame.image.load(consts.MINE_IMAGE)
 mine_image = pygame.transform.scale(mine_image, consts.MINE_SIZE)
 
+explosion_image = pygame.image.load(consts.EXPLOSION_IMAGE)
+explosion_image = pygame.transform.scale(explosion_image, consts.EXPLOSION_SIZE)
+
 flag_image = pygame.image.load(consts.FLAG_IMAGE)
 flag_image = pygame.transform.scale(flag_image, consts.FLAG_SIZE)
 
@@ -26,9 +29,6 @@ def draw_message(message, font_size, color, location):
     text_img = font.render(message, True, color)
     screen.blit(text_img, location)
 
-
-def draw_field(field):
-    pass
 
 
 def draw_bush_and_solder(game_field, bush_list):
@@ -65,7 +65,7 @@ def scan_vision(game_state, game_field, mine_list):
 
 
     for mine in mine_list:
-        bush_row, bush_col = mine
+        bush_row, bush_col = mine[0], mine[1]
         screen.blit(mine_image, (game_field[bush_row][bush_col]["center_x"], game_field[bush_row][bush_col]["center_y"]))
 
 
@@ -86,12 +86,21 @@ def draw_flag(game_field):
                              game_field[flag_row_start_point][flag_col_start_point]["center_y"]))
 
 
+def draw_explosion(game_field, exploding_mine):
+    row_explosion, col_explosion = exploding_mine[2:4]
+    print("blyaaaa 91 errroooors")
+    screen.blit(explosion_image, (game_field[row_explosion][col_explosion]))
 
-def draw_game(game_state, game_field, bush_list, mine_list):
+
+def draw_game(game_state, game_field, bush_list, mine_list, solder_position):
     if not game_state["is_scan_mode_activated"]:
         screen.fill(consts.BACKGROUND_COLOR)
         draw_flag(game_field)
         draw_bush_and_solder(game_field, bush_list)
+
+        if game_state["is_explosion"]:
+            draw_explosion(game_field, solder_position)
+
     else:
         screen.fill(consts.BLACK)
         scan_vision(game_state, game_field, mine_list)
