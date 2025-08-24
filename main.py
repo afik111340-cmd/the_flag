@@ -2,7 +2,7 @@ import pygame
 
 import Screen
 import Soldier
-# import Game_field
+import Game_field
 import consts
 
 game_state = {
@@ -23,8 +23,10 @@ def main():
     pygame.init()
     pygame.display.set_caption("The Flag")
 
-    Soldier.solder_position = [0, 0]
-
+    Soldier.solder_position = consts.SOLDIER_START_PLACEMENT
+    game_field = Game_field.game_field
+    Soldier.set_solder_position(game_field)
+    Game_field.print_mateix(game_field)
     # показываем окно, пока пользователь не нажмет кнопку "Закрыть"
     while game_state["is_window_open"]:
         game_state["solder_move_left"] = False
@@ -40,7 +42,7 @@ def main():
             Soldier.solder_move(game_state)
 
 
-        Screen.draw_game(game_state)
+        Screen.draw_game(game_state, Game_field.game_field, Game_field.bush_in_field, Game_field.mine_in_field)
 
         if game_state["is_scan_mode_activated"]:
             game_state["is_last_time_scan_mode_activated"] = True

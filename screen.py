@@ -28,36 +28,46 @@ def draw_field(field):
     pass
 
 
-def draw_bush_and_solder():
+def draw_bush_and_solder(game_field, bush_list):
     """
     this function in feautures have to get list of bushes
     here we will draw all bushes
     we will use cicle for and write coordinate
     """
-    screen.blit(solder_image, Soldier.solder_position)
+    left_leg, right_leg = Soldier.solder_position
+    left_leg_row, left_leg_col = left_leg
+
+    screen.blit(solder_image, (game_field[left_leg_row][left_leg_col]['center_x'],
+                               game_field[left_leg_row][left_leg_col]['center_y'] - consts.CELL*consts.SOLDER_SIZE_BY_HEIGHT_IN_CELLS))
     screen.blit(bush_image, (80, 80))
 
 
-def scan_vision(game_state):
+def scan_vision(game_state, game_field, mine_list):
     """
     this function in feautures have to get list of mines
     here we will draw all bushes
     we will use cicle 'for' and write coordinate
     """
-    screen.blit(night_solder_image, Soldier.solder_position)
+    left_leg, right_leg = Soldier.solder_position
+    left_leg_row, left_leg_col = left_leg
+
+    screen.blit(night_solder_image, (game_field[left_leg_row][left_leg_col]['center_x'],
+                               game_field[left_leg_row][left_leg_col][
+                                   'center_y'] - consts.CELL * consts.SOLDER_SIZE_BY_HEIGHT_IN_CELLS))
+
     screen.blit(mine_image, (70, 150))
     screen.blit(mine_image, (270, 350))
     if not game_state["is_last_time_scan_mode_activated"]:
         pygame.time.set_timer(pygame.USEREVENT, 1000)
 
 
-def draw_game(game_state):
+def draw_game(game_state, game_field, bush_list, mine_list):
     if not game_state["is_scan_mode_activated"]:
         screen.fill(consts.BACKGROUND_COLOR)
-        draw_bush_and_solder()
+        draw_bush_and_solder(game_field, bush_list)
     else:
         screen.fill(consts.BLACK)
-        scan_vision(game_state)
+        scan_vision(game_state, mine_list)
 
     pygame.display.flip()
 

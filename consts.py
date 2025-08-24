@@ -18,7 +18,8 @@ MINE_NUMBER = 20
 FLAG_PLACEMENT = [[21, 46], [21, 47], [21, 48], [21, 49],
                   [22, 46], [22, 47], [22, 48], [22, 49],
                   [23, 46], [23, 47], [23, 48], [23, 49]]
-Soldier_PLACEMENT = [[0, 0], [1, 0]]
+
+SOLDIER_START_PLACEMENT = [[4, 0], [4, 1]]  # first it is row and  second it is column
 
 RUNNING_STATE = 1
 LOSE_STATE = 2
