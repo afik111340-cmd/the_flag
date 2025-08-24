@@ -89,6 +89,24 @@ def calc_center_x_y(matrix):
             matrix[row][col]['center_y'] = row * consts.CELL
 
 
+def check_if_got_to_flag(soldier):
+    got_flag = False
+    for row in soldier:
+        if row in consts.FLAG_PLACEMENT:
+            got_flag = True
+
+    return got_flag
+
+
+def check_if_got_exploded(soldier):
+    got_exploded = False
+    for row in range(len(game_field)):
+        for col in range(len(game_field[row])):
+            if game_field[row][col]['mine'] and [row, col] in soldier:
+                got_exploded = True
+
+    return got_exploded
+
 
 create_game_field()
 distribute_bush()
