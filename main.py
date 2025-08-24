@@ -54,6 +54,8 @@ def main():
                 game_state["is_lose"] = True
 
 
+
+
             Screen.draw_game(game_state, game_field, Game_field.bush_in_field, Game_field.mine_in_field, Game_field.what_mine_exploded)
 
             if game_state["is_scan_mode_activated"]:

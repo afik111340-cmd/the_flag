@@ -34,7 +34,7 @@ def distribute_bush():
         random_col = random.randrange(1, 49)
         random_row = random.randrange(1, 24)
 
-        while [random_row, random_col+2] in FLAG_PLACEMENT or [random_row, random_col] in SOLDIER_START_PLACEMENT:
+        while game_field[random_row][random_col+1]['flag'] or [random_row, random_col] in SOLDIER_START_PLACEMENT:
             random_col = random.randrange(1, 49)
             random_row = random.randrange(1, 24)
 
@@ -61,7 +61,7 @@ def distribute_mine():
         random_col = random.randrange(1, 48)
         random_row = random.randrange(1, 25)
 
-        while game_field[random_row][random_col + 2]['flag'] or [random_row, random_col] in SOLDIER_START_PLACEMENT:
+        while game_field[random_row][random_col+3]['flag'] or [random_row, random_col] in SOLDIER_START_PLACEMENT:
             random_col = random.randrange(1, 48)
             random_row = random.randrange(1, 25)
 
@@ -77,7 +77,6 @@ def distribute_mine():
 
             num_of_mine_placed += 1
             mine_in_field.append([random_row, random_col, random_row, random_col + 1, random_row, random_col + 2])
-        print(mine_in_field)
 
 
 def print_mateix(matrix):
@@ -97,9 +96,10 @@ def calc_center_x_y(matrix):
 
 def check_if_got_to_flag(soldier):
     got_flag = False
-    for row in soldier:
-        if row in consts.FLAG_PLACEMENT:
-            got_flag = True
+    for side in range(len(soldier)):
+        for highet in range(1,3):
+            if [soldier[side][0] + highet, soldier[side][1]] in FLAG_PLACEMENT:
+                got_flag = True
 
     return got_flag
 
