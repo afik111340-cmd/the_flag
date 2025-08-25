@@ -27,16 +27,17 @@ game_state = {
 }
 
 time_list = []
-save_num_list = {pygame.K_1: 1,
-                 pygame.K_2: 2,
-                 pygame.K_3: 3,
-                 pygame.K_4: 4,
-                 pygame.K_5: 5,
-                 pygame.K_6: 6,
-                 pygame.K_7: 7,
-                 pygame.K_8: 8,
-                 pygame.K_9: 9
-                 }
+save_num_list = {
+    pygame.K_1: 1,
+    pygame.K_2: 2,
+    pygame.K_3: 3,
+    pygame.K_4: 4,
+    pygame.K_5: 5,
+    pygame.K_6: 6,
+    pygame.K_7: 7,
+    pygame.K_8: 8,
+    pygame.K_9: 9
+}
 
 
 
@@ -47,10 +48,9 @@ def main():
     pygame.display.set_caption("The Flag")
 
     Game_field.init_game_field()
-    game_field = Game_field.game_field
 
     Soldier.solder_position = consts.SOLDIER_START_PLACEMENT
-    Soldier.set_solder_starting_position(game_field)
+    Soldier.set_solder_starting_position(Game_field.game_field)
 
     # Game_field.print_mateix(game_field)
     # показываем окно, пока пользователь не нажмет кнопку "Закрыть"
@@ -78,9 +78,11 @@ def main():
         if game_state["load_progress"]:
             print("load_progress")
             data_from_save = Database.load_save(game_state["load_progress"])
-            (game_state, Game_field.game_field, Soldier.soldier_position, Game_field.bush_in_field, Game_field.mine_in_field,
-             consts.FLAG_PLACEMENT) = data_from_save
+            if data_from_save:
+                (game_state, Game_field.game_field, Soldier.soldier_position, Game_field.bush_in_field,
+                 Game_field.mine_in_field, consts.FLAG_PLACEMENT) = data_from_save
             continue
+
 
         if not game_state["is_explosion"] and not game_state["is_win"]:
 
@@ -132,10 +134,11 @@ def handle_user_events():
         if event.type == pygame.KEYUP:
             if event.key in save_num_list:
                 tt = how_long_press(event.key, 'stop')
-                if save_or_load_file(tt) == "load":
-                    game_state["load_progress"] = save_num_list[event.key]
-                else:
-                    game_state["save_progress"] = save_num_list[event.key]
+                if not game_state["is_win"] and not game_state["is_lose"]:
+                    if save_or_load_file(tt) == "load":
+                        game_state["load_progress"] = save_num_list[event.key]
+                    else:
+                        game_state["save_progress"] = save_num_list[event.key]
 
 
 

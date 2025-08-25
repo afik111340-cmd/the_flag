@@ -120,6 +120,7 @@ def draw_flag(game_field):
 
 
 
+
 def draw_explosion(game_field, exploding_mine, mine_list):
     row_explosion, col_explosion = exploding_mine[0], exploding_mine[1]
 
