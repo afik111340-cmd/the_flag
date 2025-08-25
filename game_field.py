@@ -60,7 +60,6 @@ def distribute_mine():
         manage_to_place_mine = False
         random_col = random.randrange(1, 48)
         random_row = random.randrange(1, 25)
-        print(game_field[random_row][random_col]['flag'], game_field[random_row][random_col+1]['flag'], game_field[random_row][random_col+2]['flag'])
         while game_field[random_row][random_col]['flag'] or game_field[random_row][random_col+1]['flag'] or game_field[random_row][random_col+2]['flag'] or [random_row, random_col] in SOLDIER_START_PLACEMENT:
             random_col = random.randrange(1, 48)
             random_row = random.randrange(1, 25)
