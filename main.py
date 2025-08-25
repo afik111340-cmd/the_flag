@@ -3,6 +3,7 @@ import pygame
 import Screen
 import Soldier
 import Game_field
+import Database
 import consts
 
 game_state = {
@@ -17,6 +18,8 @@ game_state = {
     "is_it_finish": False,
     "is_explosion": False,
     "need_print_starting_message": True,
+    "save_progress": 0,
+    "load_progress": 0,
     "solder_move_left": False,
     "solder_move_right": False,
     "solder_move_up": False,
@@ -29,11 +32,13 @@ def main():
     pygame.init()
     pygame.display.set_caption("The Flag")
 
-
-    Soldier.solder_position = consts.SOLDIER_START_PLACEMENT
     Game_field.init_game_field()
     game_field = Game_field.game_field
+
+    Soldier.solder_position = consts.SOLDIER_START_PLACEMENT
     Soldier.set_solder_position(game_field)
+
+
     # Game_field.print_mateix(game_field)
     # показываем окно, пока пользователь не нажмет кнопку "Закрыть"
     while game_state["is_window_open"]:
@@ -44,6 +49,15 @@ def main():
 
         solder_position = Soldier.solder_position
         handle_user_events()
+
+
+        if game_state["save_progress"]:
+            Database.save_progress(game_state["save_progress"], game_state, game_field, solder_position,
+                                   Game_field.bush_in_field, Game_field.mine_in_field, consts.FLAG_PLACEMENT)
+            continue
+        if game_state["load_progress"]:
+            progress = Database.load_save(game_state["load_progress"])
+
 
         if not game_state["is_explosion"] and not game_state["is_win"]:
 
@@ -91,6 +105,11 @@ def handle_user_events():
 
                 if event.key == pygame.K_DOWN:
                     game_state["solder_move_down"] = True
+
+                if event.key == pygame.K_1:
+                    game_state["load_progress"] = 1
+                    print("one was pressed")
+
 
         if event.type == pygame.USEREVENT:
             game_state["is_scan_mode_activated"] = False
