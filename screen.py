@@ -156,6 +156,11 @@ def draw_game(game_state, game_field, bush_list, mine_list, mine_position, dino_
             draw_bush_and_solder(game_field, bush_list, damaged_soldier_image)
             draw_explosion(game_field, mine_position, mine_list)
             draw_lose_message(game_state)
+
+        elif game_state["is_lose"]:
+            draw_bush_and_solder(game_field, bush_list, damaged_soldier_image)
+            draw_lose_message(game_state)
+
         else:
             draw_bush_and_solder(game_field, bush_list, soldier_image)
             if game_state["is_win"]:

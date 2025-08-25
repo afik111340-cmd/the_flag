@@ -96,6 +96,9 @@ def main():
                 game_state["is_explosion"] = True
                 game_state["is_lose"] = True
 
+            if Guard.check_if_got_eaten(soldier_position, game_field):
+                game_state["is_lose"] = True
+
             if dino_make_step % consts.DINO_SPEED == 0:
                 Guard.dino_move(game_state, game_field)
 

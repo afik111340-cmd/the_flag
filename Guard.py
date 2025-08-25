@@ -1,5 +1,6 @@
 import consts
 
+
 dino_position = []
 dino_forward_back = 'forward'
 
@@ -36,3 +37,19 @@ def dino_move(game_state, game_field):
 
         dino_position[0][1] -= 1
         dino_position[1][1] -= 1
+
+
+def check_if_got_eaten(soldier_position, game_field):
+    print(soldier_position, dino_position)
+    got_eaten = False
+    for side in range(len(soldier_position)):
+        for hight in range(0, 2):
+            if game_field[soldier_position[0][-hight]][soldier_position[1][-hight]]['dino']:
+                got_eaten = True
+
+    return got_eaten
+
+
+
+
+
