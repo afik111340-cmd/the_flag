@@ -1,5 +1,7 @@
-import pygame
+from pickle import GLOBAL
 
+import pygame
+import time
 import Screen
 import Soldier
 import Game_field
@@ -22,6 +24,42 @@ game_state = {
     "solder_move_up": False,
     "solder_move_down": False
 }
+
+time_list=[]
+save_num_list={pygame.K_1: 1,
+               pygame.K_2: 2,
+               pygame.K_3: 3,
+               pygame.K_4: 4,
+               pygame.K_5: 5,
+               pygame.K_6: 6,
+               pygame.K_7: 7,
+               pygame.K_8: 8,
+               pygame.K_9: 9
+               }
+
+
+
+def how_long_press(file_key, to_do):
+    if to_do == 'start':
+         time_list.append(time.time())
+
+    if to_do == 'stop':
+        t = time_list[0]
+        t = time.time() - t
+        t = str(t)
+        t = t[:5]
+        print("You pressed key for", t, 'seconds')
+        time_list.clear()
+        return t
+
+def save_or_load_file(t):
+    save_or_load=''
+    if float(t) > 1:
+        save_or_load='save'
+    if float(t) < 1:
+        save_or_load='load'
+
+    return save_or_load
 
 
 
@@ -92,6 +130,19 @@ def handle_user_events():
                 if event.key == pygame.K_DOWN:
                     game_state["solder_move_down"] = True
 
+            if event.key in save_num_list:
+                how_long_press(event.key, 'start')
+
+
+
+        if event.type == pygame.KEYUP:
+            if event.key in save_num_list:
+                tt=how_long_press(event.key, 'stop')
+                save_or_load=save_or_load_file(tt)
+
+
+
+
         if event.type == pygame.USEREVENT:
             game_state["is_scan_mode_activated"] = False
 
@@ -108,6 +159,8 @@ def handle_user_events():
             pass
 
 
-
 if __name__ == "__main__":
     main()
+
+
+
