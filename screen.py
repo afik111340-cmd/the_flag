@@ -27,6 +27,9 @@ explosion_image = pygame.transform.scale(explosion_image, consts.EXPLOSION_SIZE)
 flag_image = pygame.image.load(consts.FLAG_IMAGE)
 flag_image = pygame.transform.scale(flag_image, consts.FLAG_SIZE)
 
+activate_starting_message = True
+starting_message_was_activated = False
+
 
 def draw_message(message, font_size, color, location):
     font = pygame.font.SysFont(consts.FONT_NAME, font_size)
@@ -35,7 +38,14 @@ def draw_message(message, font_size, color, location):
 
 
 def draw_start_message():
-    draw_message(consts.WELCOME_MESSAGE, consts.WELCOME_FONT_SIZE, consts.WELCOME_COLOR, consts.WELCOME_LOCATION)
+    global starting_message_was_activated, activate_starting_message
+
+    draw_message(consts.WELCOME_FIRST_MESSAGE, consts.WELCOME_FONT_SIZE, consts.WELCOME_COLOR, consts.WELCOME_FIRST_LOCATION)
+    draw_message(consts.WELCOME_SECOND_MESSAGE, consts.WELCOME_FONT_SIZE, consts.WELCOME_COLOR, consts.WELCOME_SECOND_LOCATION)
+
+    if activate_starting_message and not starting_message_was_activated:
+        pygame.time.set_timer(998, 3000)
+        starting_message_was_activated = True
 
 
 def draw_lose_message(game_state):
@@ -100,7 +110,7 @@ def scan_vision(game_state, game_field, mine_list):
 
 
     if not game_state["is_last_time_scan_mode_activated"]:
-        pygame.time.set_timer(pygame.USEREVENT, 5000)
+        pygame.time.set_timer(pygame.USEREVENT, 1000)
 
 
 def draw_flag(game_field):
@@ -127,7 +137,7 @@ def draw_explosion(game_field, exploding_mine, mine_list):
 def draw_game(game_state, game_field, bush_list, mine_list, mine_position):
     if not game_state["is_scan_mode_activated"]:
         screen.fill(consts.BACKGROUND_COLOR)
-        draw_start_message()
+
         if game_state["is_explosion"]:
             draw_bush_and_solder(game_field, bush_list, damaged_solder_image)
             draw_explosion(game_field, mine_position, mine_list)
@@ -137,6 +147,8 @@ def draw_game(game_state, game_field, bush_list, mine_list, mine_position):
             if game_state["is_win"]:
                 draw_win_message(game_state)
 
+        if game_state["need_print_starting_message"]:
+            draw_start_message()
         draw_flag(game_field)
 
 

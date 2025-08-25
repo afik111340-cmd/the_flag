@@ -16,6 +16,7 @@ game_state = {
     "is_win": False,
     "is_it_finish": False,
     "is_explosion": False,
+    "need_print_starting_message": True,
     "solder_move_left": False,
     "solder_move_right": False,
     "solder_move_up": False,
@@ -93,6 +94,9 @@ def handle_user_events():
 
         if event.type == pygame.USEREVENT:
             game_state["is_scan_mode_activated"] = False
+
+        if event.type == 998:
+            game_state["need_print_starting_message"] = False
 
         if event.type == pygame.QUIT or event.type == 999:
             game_state["is_window_open"] = False
