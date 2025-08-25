@@ -60,8 +60,8 @@ def distribute_mine():
         manage_to_place_mine = False
         random_col = random.randrange(1, 48)
         random_row = random.randrange(1, 25)
-
-        while game_field[random_row][random_col+3]['flag'] or [random_row, random_col] in SOLDIER_START_PLACEMENT:
+        print(game_field[random_row][random_col]['flag'], game_field[random_row][random_col+1]['flag'], game_field[random_row][random_col+2]['flag'])
+        while game_field[random_row][random_col]['flag'] or game_field[random_row][random_col+1]['flag'] or game_field[random_row][random_col+2]['flag'] or [random_row, random_col] in SOLDIER_START_PLACEMENT:
             random_col = random.randrange(1, 48)
             random_row = random.randrange(1, 25)
 
@@ -119,10 +119,13 @@ def check_if_got_exploded(soldier):
     return got_exploded
 
 
-create_game_field()
-distribute_bush()
-distribute_mine()
-calc_center_x_y(game_field)
+
+def init_game_field():
+    create_game_field()
+    insert_flag_to_matrix()
+    distribute_bush()
+    distribute_mine()
+    calc_center_x_y(game_field)
 # print_mateix(game_field)
 # print(bush_in_field)
 # print(mine_in_field)
