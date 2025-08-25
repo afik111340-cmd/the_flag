@@ -27,7 +27,8 @@ game_state = {
 }
 
 time_list = []
-save_num_list = {
+
+save_file_num = {
     pygame.K_1: 1,
     pygame.K_2: 2,
     pygame.K_3: 3,
@@ -128,18 +129,17 @@ def handle_user_events():
                 if event.key == pygame.K_DOWN:
                     game_state["solder_move_down"] = True
 
-            if event.key in save_num_list:
+            if event.key in save_file_num:
                 how_long_press(event.key, 'start')
 
         if event.type == pygame.KEYUP:
-            if event.key in save_num_list:
+            if event.key in save_file_num:
                 tt = how_long_press(event.key, 'stop')
-                if not game_state["is_win"] and not game_state["is_lose"]:
-                    if save_or_load_file(tt) == "load":
-                        game_state["load_progress"] = save_num_list[event.key]
-                    else:
-                        game_state["save_progress"] = save_num_list[event.key]
 
+                if save_or_load_file(tt) == "load":
+                    game_state["load_progress"] = save_file_num[event.key]
+                else:
+                    game_state["save_progress"] = save_file_num[event.key]
 
 
         if event.type == pygame.USEREVENT:
@@ -158,25 +158,23 @@ def handle_user_events():
             pass
 
 
-def how_long_press(file_key, to_do):
+def how_long_press(to_do):
     if to_do == 'start':
         time_list.append(time.time())
 
     if to_do == 'stop':
-        t = time_list[0]
-        t = time.time() - t
-        t = str(t)
-        t = t[:5]
-        print("You pressed key for", t, 'seconds')
+        start_press_time = time_list[0]
+        start_press_time = str(time.time() - start_press_time)
+        start_press_time = start_press_time[:5]
         time_list.clear()
-        return t
+        return start_press_time
 
 
 def save_or_load_file(t):
     save_or_load = ''
     if float(t) > 1:
         save_or_load = 'save'
-    if float(t) < 1:
+    if float(t) <= 1:
         save_or_load = 'load'
 
     return save_or_load
