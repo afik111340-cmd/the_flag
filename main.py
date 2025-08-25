@@ -130,16 +130,17 @@ def handle_user_events():
                     game_state["solder_move_down"] = True
 
             if event.key in save_file_num:
-                how_long_press(event.key, 'start')
+                how_long_press('start')
 
         if event.type == pygame.KEYUP:
             if event.key in save_file_num:
-                tt = how_long_press(event.key, 'stop')
+                tt = how_long_press('stop')
 
-                if save_or_load_file(tt) == "load":
-                    game_state["load_progress"] = save_file_num[event.key]
-                else:
-                    game_state["save_progress"] = save_file_num[event.key]
+                if not game_state["is_win"] and not game_state["is_lose"]:
+                    if save_or_load_file(tt) == "load":
+                        game_state["load_progress"] = save_file_num[event.key]
+                    else:
+                        game_state["save_progress"] = save_file_num[event.key]
 
 
         if event.type == pygame.USEREVENT:
