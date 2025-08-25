@@ -96,7 +96,7 @@ def calc_center_x_y(matrix):
 def check_if_got_to_flag(soldier):
     got_flag = False
     for side in range(len(soldier)):
-        for highet in range(1,3):
+        for highet in range(1, 3):
             if [soldier[side][0] - highet, soldier[side][1]] in FLAG_PLACEMENT:
                 got_flag = True
 
