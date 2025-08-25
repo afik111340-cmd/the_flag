@@ -40,7 +40,6 @@ def dino_move(game_state, game_field):
 
 
 def check_if_got_eaten(soldier_position, game_field):
-    print(soldier_position, dino_position)
     got_eaten = False
     for side in range(len(soldier_position)):
         for hight in range(0, 2):

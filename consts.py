@@ -27,6 +27,8 @@ DINO_START_PLACEMENT = [[int(ROWS_FIELD//2), 0], [int(ROWS_FIELD//2), 1]]
 
 DINO_SPEED = 15  # the higher the number the less it moves
 
+TELEPORT_NUMBER = 5
+
 RUNNING_STATE = 1
 LOSE_STATE = 2
 WIN_STATE = 3

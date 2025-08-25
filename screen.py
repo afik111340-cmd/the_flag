@@ -29,7 +29,10 @@ flag_image = pygame.transform.scale(flag_image, consts.FLAG_SIZE)
 
 dino_image = pygame.image.load(consts.DINO_IMAGE)
 dino_image = pygame.transform.scale(dino_image, consts.DINO_SIZE)
+dino_turned_to_the_left_image = pygame.transform.flip(dino_image, True, False)
 
+teleport_image = pygame.image.load(consts.TELEPORT_IMAGE)
+teleport_image = pygame.transform.scale(teleport_image, consts.TELEPORT_SIZE)
 
 activate_starting_message = True
 starting_message_was_activated = False
@@ -138,14 +141,25 @@ def draw_explosion(game_field, exploding_mine, mine_list):
                                   game_field[row_explosion-2][col_explosion-1]["center_y"]))
 
 
-def draw_dino(game_field, dino_position):
+def draw_dino(game_state, game_field, dino_position):
     left_leg, right_leg = dino_position
     left_leg_row, left_leg_col = left_leg
 
-    screen.blit(dino_image, (game_field[left_leg_row][left_leg_col]['center_x'],
-                             game_field[left_leg_row][left_leg_col]['center_y']
-                             - consts.CELL*consts.DINO_SIZE_BY_HEIGHT_IN_CELLS))
+    if game_state["is_dino_move_forward"]:
+        screen.blit(dino_image, (game_field[left_leg_row][left_leg_col]['center_x'],
+                                 game_field[left_leg_row][left_leg_col]['center_y']
+                                 - consts.CELL*consts.DINO_SIZE_BY_HEIGHT_IN_CELLS))
+    else:
+        screen.blit(dino_turned_to_the_left_image, (game_field[left_leg_row][left_leg_col]['center_x'],
+                                                    game_field[left_leg_row][left_leg_col]['center_y']
+                                                    - consts.CELL * consts.DINO_SIZE_BY_HEIGHT_IN_CELLS))
 
+
+def draw_teleport(game_field, teleport_list):
+    for teleport in teleport_list:
+        teleport_row, teleport_col = teleport
+        screen.blit(bush_image,
+                    (game_field[teleport_row][teleport_col]["center_x"], game_field[teleport_row][teleport_col]["center_y"]))
 
 
 def draw_game(game_state, game_field, bush_list, mine_list, mine_position, dino_position):
@@ -168,7 +182,7 @@ def draw_game(game_state, game_field, bush_list, mine_list, mine_position, dino_
 
         if game_state["need_print_starting_message"]:
             draw_start_message()
-        draw_dino(game_field, dino_position)
+        draw_dino(game_state, game_field, dino_position)
         draw_flag(game_field)
 
 
