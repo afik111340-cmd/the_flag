@@ -155,7 +155,7 @@ def handle_user_events():
             pass
 
 
-def how_long_press(file_key, to_do):
+def how_long_press(to_do):
     if to_do == 'start':
         time_list.append(time.time())
 
@@ -171,7 +171,7 @@ def save_or_load_file(t):
     save_or_load = ''
     if float(t) > 1:
         save_or_load = 'save'
-    if float(t) < 1:
+    if float(t) <= 1:
         save_or_load = 'load'
 
     return save_or_load
