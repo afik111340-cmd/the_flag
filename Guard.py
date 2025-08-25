@@ -1,4 +1,5 @@
 import consts
+from Game_field import game_field
 
 dino_position = []
 dino_forward_back = 'forward'
@@ -15,7 +16,7 @@ def set_dino_starting_position(game_field):
     game_field[right_leg_row][right_leg_col]['dino'] = True
 
 
-def dino_move(game_state, game_field):
+def dino_move(game_field):
     global dino_forward_back
     if dino_position[1][1] == len(game_field[0]) - 1:
         dino_forward_back = 'back'
@@ -36,3 +37,18 @@ def dino_move(game_state, game_field):
 
         dino_position[0][1] -= 1
         dino_position[1][1] -= 1
+
+
+def check_if_got_eaten(soldier):
+    got_eaten = False
+    for side in range(soldier):
+        for hight in range(3):
+            if game_field[soldier[0][hight]][soldier[1][hight]]['dino']:
+                got_eaten = True
+
+    return got_eaten
+
+
+
+
+
