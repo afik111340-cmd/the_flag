@@ -70,7 +70,7 @@ def draw_bush_and_solder(game_field, bush_list, image_solder):
     here we will draw all bushes
     we will use cicle for and write coordinate
     """
-    left_leg, right_leg = Soldier.solder_position
+    left_leg, right_leg = Soldier.soldier_position
     left_leg_row, left_leg_col = left_leg
 
     screen.blit(image_solder, (game_field[left_leg_row][left_leg_col]['center_x'],
@@ -89,7 +89,7 @@ def scan_vision(game_state, game_field, mine_list):
     here we will draw all bushes
     we will use cicle 'for' and write coordinate
     """
-    left_leg, right_leg = Soldier.solder_position
+    left_leg, right_leg = Soldier.soldier_position
     left_leg_row, left_leg_col = left_leg
 
     screen.blit(night_solder_image, (game_field[left_leg_row][left_leg_col]['center_x'],

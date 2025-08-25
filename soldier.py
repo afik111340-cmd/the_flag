@@ -1,15 +1,15 @@
 import consts
 
-solder_position = []
+soldier_position = []
 
 
-def set_solder_position(game_field):
-    global solder_position
+def set_solder_starting_position(game_field):
+    global soldier_position
     left_leg, right_leg = consts.SOLDIER_START_PLACEMENT
     left_leg_row, left_leg_col = left_leg
     right_leg_row, right_leg_col = right_leg
 
-    solder_position = [[left_leg_row, left_leg_col], [right_leg_row, right_leg_col]]
+    soldier_position = [[left_leg_row, left_leg_col], [right_leg_row, right_leg_col]]
     game_field[left_leg_row][left_leg_col]['soldier'] = True
     game_field[right_leg_row][right_leg_col]['soldier'] = True
 
@@ -17,34 +17,33 @@ def set_solder_position(game_field):
 
 
 def solder_move(game_state, game_field):
+    if game_state["solder_move_left"] and soldier_position[0][1] != 0:
+        game_field[soldier_position[0][0]][soldier_position[0][1]]['soldier'] = False
+        game_field[soldier_position[1][0]][soldier_position[1][1]]['soldier'] = False
 
-    if game_state["solder_move_left"] and solder_position[0][1] != 0:
-        game_field[solder_position[0][0]][solder_position[0][1]]['soldier'] = False
-        game_field[solder_position[1][0]][solder_position[1][1]]['soldier'] = False
+        soldier_position[0][1] -= 1
+        soldier_position[1][1] -= 1
 
-        solder_position[0][1] -= 1
-        solder_position[1][1] -= 1
+    if game_state["solder_move_right"] and soldier_position[0][1] != len(game_field[0]) - 2:
+        game_field[soldier_position[0][0]][soldier_position[0][1]]['soldier'] = False
+        game_field[soldier_position[1][0]][soldier_position[1][1]]['soldier'] = False
 
-    if game_state["solder_move_right"] and solder_position[0][1] != len(game_field[0]) - 2:
-        game_field[solder_position[0][0]][solder_position[0][1]]['soldier'] = False
-        game_field[solder_position[1][0]][solder_position[1][1]]['soldier'] = False
+        soldier_position[0][1] += 1
+        soldier_position[1][1] += 1
 
-        solder_position[0][1] += 1
-        solder_position[1][1] += 1
+    if game_state["solder_move_up"] and soldier_position[0][0] != consts.SOLDER_SIZE_BY_HEIGHT_IN_CELLS:
+        game_field[soldier_position[0][0]][soldier_position[0][1]]['soldier'] = False
+        game_field[soldier_position[1][0]][soldier_position[1][1]]['soldier'] = False
 
-    if game_state["solder_move_up"] and solder_position[0][0] != consts.SOLDER_SIZE_BY_HEIGHT_IN_CELLS:
-        game_field[solder_position[0][0]][solder_position[0][1]]['soldier'] = False
-        game_field[solder_position[1][0]][solder_position[1][1]]['soldier'] = False
+        soldier_position[0][0] -= 1
+        soldier_position[1][0] -= 1
 
-        solder_position[0][0] -= 1
-        solder_position[1][0] -= 1
+    if game_state["solder_move_down"] and soldier_position[0][0] != len(game_field) - 1:
+        game_field[soldier_position[0][0]][soldier_position[0][1]]['soldier']=False
+        game_field[soldier_position[1][0]][soldier_position[1][1]]['soldier']=False
 
-    if game_state["solder_move_down"] and solder_position[0][0] != len(game_field) - 1:
-        game_field[solder_position[0][0]][solder_position[0][1]]['soldier']=False
-        game_field[solder_position[1][0]][solder_position[1][1]]['soldier']=False
-
-        solder_position[0][0] += 1
-        solder_position[1][0] += 1
+        soldier_position[0][0] += 1
+        soldier_position[1][0] += 1
 
 
 """

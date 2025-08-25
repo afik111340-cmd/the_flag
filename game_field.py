@@ -125,3 +125,7 @@ def init_game_field():
     distribute_bush()
     distribute_mine()
     calc_center_x_y(game_field)
+
+
+
+
