@@ -148,7 +148,7 @@ def draw_dino(game_field, dino_position):
 
 
 
-def draw_game(game_state, game_field, bush_list, mine_list, mine_position):
+def draw_game(game_state, game_field, bush_list, mine_list, mine_position, dino_position):
     if not game_state["is_scan_mode_activated"]:
         screen.fill(consts.BACKGROUND_COLOR)
 
@@ -163,7 +163,7 @@ def draw_game(game_state, game_field, bush_list, mine_list, mine_position):
 
         if game_state["need_print_starting_message"]:
             draw_start_message()
-        draw_dino()
+        draw_dino(game_field, dino_position)
         draw_flag(game_field)
 
 

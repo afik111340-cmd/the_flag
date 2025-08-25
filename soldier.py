@@ -14,8 +14,6 @@ def set_solder_starting_position(game_field):
     game_field[right_leg_row][right_leg_col]['soldier'] = True
 
 
-
-
 def solder_move(game_state, game_field):
     if game_state["solder_move_left"] and soldier_position[0][1] != 0:
         game_field[soldier_position[0][0]][soldier_position[0][1]]['soldier'] = False
@@ -39,12 +37,16 @@ def solder_move(game_state, game_field):
         soldier_position[1][0] -= 1
 
     if game_state["solder_move_down"] and soldier_position[0][0] != len(game_field) - 1:
-        game_field[soldier_position[0][0]][soldier_position[0][1]]['soldier']=False
-        game_field[soldier_position[1][0]][soldier_position[1][1]]['soldier']=False
+        game_field[soldier_position[0][0]][soldier_position[0][1]]['soldier'] = False
+        game_field[soldier_position[1][0]][soldier_position[1][1]]['soldier'] = False
 
         soldier_position[0][0] += 1
         soldier_position[1][0] += 1
 
+    game_state["solder_move_left"] = False
+    game_state["solder_move_right"] = False
+    game_state["solder_move_up"] = False
+    game_state["solder_move_down"] = False
 
 """
 Player character detection module.

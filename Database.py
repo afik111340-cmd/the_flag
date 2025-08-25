@@ -3,12 +3,12 @@ import ast
 import os
 
 
-def save_progress(name_file, game_state, game_field, solder_position, bush_list, mine_list, flag_position):
+def save_progress(name_file, game_state, game_field, solder_position, bush_list, mine_list, flag_position, dino_position):
     if not os.path.exists(f"saves"):
         os.makedirs('saves', exist_ok=True)
 
-    df = pd.Series([game_state, game_field, solder_position, bush_list, mine_list, flag_position],
-                   index=["game_state", "game_field", "solder_position", "bush_list", "mine_list", "flag_position"])
+    df = pd.Series([game_state, game_field, solder_position, bush_list, mine_list, flag_position, dino_position],
+                   index=["game_state", "game_field", "solder_position", "bush_list", "mine_list", "flag_position", "dino_position"])
 
     df.to_csv(f'saves/{name_file}.csv')
 

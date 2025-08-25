@@ -21,6 +21,7 @@ game_state = {
     "need_print_starting_message": True,
     "save_progress": 0,
     "load_progress": 0,
+    "is_dino_move_forward": True,
     "solder_move_left": False,
     "solder_move_right": False,
     "solder_move_up": False,
@@ -54,14 +55,13 @@ def main():
     Soldier.solder_position = consts.SOLDIER_START_PLACEMENT
     Soldier.set_solder_starting_position(Game_field.game_field)
 
+    Guard.set_dino_starting_position(Game_field.game_field)
+
     # Game_field.print_mateix(game_field)
     # показываем окно, пока пользователь не нажмет кнопку "Закрыть"
+    dino_make_step = 0
     while game_state["is_window_open"]:
-        game_state["solder_move_left"] = False
-        game_state["solder_move_right"] = False
-        game_state["solder_move_up"] = False
-        game_state["solder_move_down"] = False
-
+        dino_make_step += 1
         if game_state["load_progress"]:
             game_state["load_progress"] = 0
         if game_state["save_progress"]:
@@ -69,20 +69,20 @@ def main():
 
         game_field = Game_field.game_field
         soldier_position = Soldier.soldier_position
-
+        dino_position = Guard.dino_position
         handle_user_events()
 
         if game_state["save_progress"]:
             print("save_progress")
             Database.save_progress(game_state["save_progress"], game_state, game_field, soldier_position,
-                                   Game_field.bush_in_field, Game_field.mine_in_field, consts.FLAG_PLACEMENT)
+                                   Game_field.bush_in_field, Game_field.mine_in_field, consts.FLAG_PLACEMENT, dino_position)
             continue
         if game_state["load_progress"]:
             print("load_progress")
             data_from_save = Database.load_save(game_state["load_progress"])
             if data_from_save:
                 (game_state, Game_field.game_field, Soldier.soldier_position, Game_field.bush_in_field,
-                 Game_field.mine_in_field, consts.FLAG_PLACEMENT) = data_from_save
+                 Game_field.mine_in_field, consts.FLAG_PLACEMENT, Guard.dino_position) = data_from_save
             continue
 
 
@@ -96,9 +96,11 @@ def main():
                 game_state["is_explosion"] = True
                 game_state["is_lose"] = True
 
+            if dino_make_step % consts.DINO_SPEED == 0:
+                Guard.dino_move(game_state, game_field)
 
             Screen.draw_game(game_state, game_field, Game_field.bush_in_field, Game_field.mine_in_field,
-                             Game_field.what_mine_exploded)
+                             Game_field.what_mine_exploded, dino_position)
 
             if game_state["is_scan_mode_activated"]:
                 game_state["is_last_time_scan_mode_activated"] = True
@@ -107,7 +109,7 @@ def main():
 
         else:
             Screen.draw_game(game_state, game_field, Game_field.bush_in_field, Game_field.mine_in_field,
-                             Game_field.what_mine_exploded)
+                             Game_field.what_mine_exploded, dino_position)
             game_state["is_it_finish"] = True
 
 
