@@ -4,6 +4,7 @@ import Screen
 import Soldier
 import Game_field
 import Database
+import Guard
 import consts
 
 game_state = {
@@ -94,6 +95,7 @@ def main():
             if Game_field.check_if_got_exploded(soldier_position):
                 game_state["is_explosion"] = True
                 game_state["is_lose"] = True
+
 
             Screen.draw_game(game_state, game_field, Game_field.bush_in_field, Game_field.mine_in_field,
                              Game_field.what_mine_exploded)

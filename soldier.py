@@ -31,7 +31,7 @@ def solder_move(game_state, game_field):
         soldier_position[0][1] += 1
         soldier_position[1][1] += 1
 
-    if game_state["solder_move_up"] and soldier_position[0][0] != consts.SOLDER_SIZE_BY_HEIGHT_IN_CELLS:
+    if game_state["solder_move_up"] and soldier_position[0][0] != consts.SOLDIER_SIZE_BY_HEIGHT_IN_CELLS:
         game_field[soldier_position[0][0]][soldier_position[0][1]]['soldier'] = False
         game_field[soldier_position[1][0]][soldier_position[1][1]]['soldier'] = False
 

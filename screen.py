@@ -6,14 +6,14 @@ import Soldier
 
 screen = pygame.display.set_mode((consts.WINDOW_WIDTH, consts.WINDOW_HEIGHT))
 
-solder_image = pygame.image.load(consts.SOLDIER_IMAGE)
-solder_image = pygame.transform.scale(solder_image, consts.SOLDER_SIZE)
+soldier_image = pygame.image.load(consts.SOLDIER_IMAGE)
+soldier_image = pygame.transform.scale(soldier_image, consts.SOLDIER_SIZE)
 
-damaged_solder_image = pygame.image.load(consts.DAMAGED_SOLDER_IMAGE)
-damaged_solder_image = pygame.transform.scale(damaged_solder_image, consts.SOLDER_SIZE)
+damaged_soldier_image = pygame.image.load(consts.DAMAGED_SOLDIER_IMAGE)
+damaged_soldier_image = pygame.transform.scale(damaged_soldier_image, consts.SOLDIER_SIZE)
 
-night_solder_image = pygame.image.load(consts.SOLDER_NIGHT_IMAGE)
-night_solder_image = pygame.transform.scale(night_solder_image, consts.SOLDER_SIZE)
+night_soldier_image = pygame.image.load(consts.SOLDIER_NIGHT_IMAGE)
+night_soldier_image = pygame.transform.scale(night_soldier_image, consts.SOLDIER_SIZE)
 
 bush_image = pygame.image.load(consts.BUSH_IMAGE)
 bush_image = pygame.transform.scale(bush_image, consts.BUSH_SIZE)
@@ -26,6 +26,10 @@ explosion_image = pygame.transform.scale(explosion_image, consts.EXPLOSION_SIZE)
 
 flag_image = pygame.image.load(consts.FLAG_IMAGE)
 flag_image = pygame.transform.scale(flag_image, consts.FLAG_SIZE)
+
+dino_image = pygame.image.load(consts.DINO_IMAGE)
+dino_image = pygame.transform.scale(dino_image, consts.DINO_SIZE)
+
 
 activate_starting_message = True
 starting_message_was_activated = False
@@ -64,7 +68,7 @@ def draw_win_message(game_state):
         pygame.time.set_timer(999, 3000)
 
 
-def draw_bush_and_solder(game_field, bush_list, image_solder):
+def draw_bush_and_solder(game_field, bush_list, image_soldier):
     """
     this function in feautures have to get list of bushes
     here we will draw all bushes
@@ -73,8 +77,8 @@ def draw_bush_and_solder(game_field, bush_list, image_solder):
     left_leg, right_leg = Soldier.soldier_position
     left_leg_row, left_leg_col = left_leg
 
-    screen.blit(image_solder, (game_field[left_leg_row][left_leg_col]['center_x'],
-                               game_field[left_leg_row][left_leg_col]['center_y'] - consts.CELL*consts.SOLDER_SIZE_BY_HEIGHT_IN_CELLS))
+    screen.blit(image_soldier, (game_field[left_leg_row][left_leg_col]['center_x'],
+                                game_field[left_leg_row][left_leg_col]['center_y'] - consts.CELL*consts.SOLDIER_SIZE_BY_HEIGHT_IN_CELLS))
 
     for bush in bush_list:
         bush_row, bush_col = bush
@@ -92,9 +96,9 @@ def scan_vision(game_state, game_field, mine_list):
     left_leg, right_leg = Soldier.soldier_position
     left_leg_row, left_leg_col = left_leg
 
-    screen.blit(night_solder_image, (game_field[left_leg_row][left_leg_col]['center_x'],
-                                     game_field[left_leg_row][left_leg_col]['center_y'] -
-                                     cell_size * consts.SOLDER_SIZE_BY_HEIGHT_IN_CELLS))
+    screen.blit(night_soldier_image, (game_field[left_leg_row][left_leg_col]['center_x'],
+                                      game_field[left_leg_row][left_leg_col]['center_y'] -
+                                      cell_size * consts.SOLDIER_SIZE_BY_HEIGHT_IN_CELLS))
 
 
     for mine in mine_list:
@@ -124,7 +128,6 @@ def draw_flag(game_field):
 def draw_explosion(game_field, exploding_mine, mine_list):
     row_explosion, col_explosion = exploding_mine[0], exploding_mine[1]
 
-
     # print((game_field[row_explosion-1][col_explosion-1]["center_x"],
     #        game_field[row_explosion][col_explosion]["center_y"]))
     # for mine in mine_list:
@@ -135,21 +138,32 @@ def draw_explosion(game_field, exploding_mine, mine_list):
                                   game_field[row_explosion-2][col_explosion-1]["center_y"]))
 
 
+def draw_dino(game_field, dino_position):
+    left_leg, right_leg = dino_position
+    left_leg_row, left_leg_col = left_leg
+
+    screen.blit(dino_image, (game_field[left_leg_row][left_leg_col]['center_x'],
+                             game_field[left_leg_row][left_leg_col]['center_y']
+                             - consts.CELL*consts.DINO_SIZE_BY_HEIGHT_IN_CELLS))
+
+
+
 def draw_game(game_state, game_field, bush_list, mine_list, mine_position):
     if not game_state["is_scan_mode_activated"]:
         screen.fill(consts.BACKGROUND_COLOR)
 
         if game_state["is_explosion"]:
-            draw_bush_and_solder(game_field, bush_list, damaged_solder_image)
+            draw_bush_and_solder(game_field, bush_list, damaged_soldier_image)
             draw_explosion(game_field, mine_position, mine_list)
             draw_lose_message(game_state)
         else:
-            draw_bush_and_solder(game_field, bush_list, solder_image)
+            draw_bush_and_solder(game_field, bush_list, soldier_image)
             if game_state["is_win"]:
                 draw_win_message(game_state)
 
         if game_state["need_print_starting_message"]:
             draw_start_message()
+        draw_dino()
         draw_flag(game_field)
 
 
