@@ -18,7 +18,7 @@ def create_field_row(row_length):
 
 
 def create_field_dict():
-    return {'soldier': False, 'bush': False, 'mine': False, 'flag': False, 'center_x': '', 'center_y': ''}
+    return {'dino': False, 'teleport': False, 'soldier': False, 'bush': False, 'mine': False, 'flag': False, 'center_x': '', 'center_y': ''}
 
 
 def insert_flag_to_matrix():

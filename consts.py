@@ -21,6 +21,7 @@ FLAG_PLACEMENT = [[22, 46], [22, 47], [22, 48], [22, 49],
                   [24, 46], [24, 47], [24, 48], [24, 49]]
 
 SOLDIER_START_PLACEMENT = [[4, 0], [4, 1]]  # first it is row and  second it is column
+DINO_START_PLACEMENT = [[ROWS_FIELD//2, 0][ROWS_FIELD//2, 1]]
 
 RUNNING_STATE = 1
 LOSE_STATE = 2
